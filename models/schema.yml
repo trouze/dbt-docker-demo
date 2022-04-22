@@ -1,0 +1,21 @@
+
+version: 2
+
+sources:
+  - name: jaffle_shop
+    database: TROUZE_DB
+    schema: JAFFLE_SHOP
+    tables:
+      - name: ORDERS
+      - name: CUSTOMERS
+      - name: PAYMENTS
+
+models:
+  - name: silver
+    description: "A starter dbt model"
+    columns:
+      - name: id
+        description: "The primary key for this table"
+        tests:
+          - unique
+          - not_null
