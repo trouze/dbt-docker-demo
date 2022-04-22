@@ -11,7 +11,9 @@ Best practice is to initialize a dbt project and create the Dockerfile within th
 The below command builds the docker image, we specify the adapter type. Here we show Databricks and Snowflake, but there are more. The period (.) at the end of the command specifies the path to the Dockerfile, if you've changed to the working directory that contains the Dockerfile and dbt project, this will work.
 
 ```docker build --tag dbt-demo-image --target dbt-third-party --build-arg dbt_third_party=dbt-databricks .```
+
 or
+
 ```docker build --tag dbt-demo-image --target dbt-snowflake .```
 
 ### Run Image/Create Container
@@ -19,7 +21,9 @@ or
 Either of the above commands will generate a Docker image set up to run dbt, we can then trigger (or schedule) a run of the dbt CLI through a `docker run` command.
 
 ```docker run --network=host dbt-demo-image```
+
 or
+
 ```docker run --network=host dbt-demo-image```
 
 This Dockerfile is configured with a bash `ENTRYPOINT` that will execute the commands in the `run.sh` file. If you don't wish for this behavior, you can change the `ENTRYPOINT` to be `dbt`. If this change is made, note that for testing purposes you can add a dbt command in the `docker run` command after `dbt-demo-image`, for example `ls` or `snapshot` or `run`. 
@@ -29,7 +33,9 @@ Additionally, we can change the mount/copy behavior of our `profiles.yml` file a
 If you wish to run docker more interactively across projects, you can add a couple args to the `docker run` command.
 
 ```docker run --network=host --mount type=bind,source=/home/tyler/dev/dbt_project,target=/usr/app --mount type=bind,source=/home/tyler/.dbt/profiles.yml,target=/root/.dbt/profiles.yml dbt-demo-image```
+
 or
+
 ```docker run --network=host --mount type=bind,source=/home/tyler/dev/dbt_docker,target=/usr/app --mount type=bind,source=/home/tyler/.dbt/profiles.yml,target=/root/.dbt/profiles.yml dbt-demo-image```
 
 ### Resources:
