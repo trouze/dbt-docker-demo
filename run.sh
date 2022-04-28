@@ -1,2 +1,2 @@
+dbt debug
 dbt run
-dbt snapshot
