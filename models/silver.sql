@@ -12,7 +12,7 @@
 with customerstbl as (
     
   select
-    ID,
+    ID as c_ID,
     FIRST_NAME,
     LAST_NAME
   from {{ source('jaffle_shop','CUSTOMERS') }}
@@ -22,7 +22,7 @@ with customerstbl as (
 orderstbl as (
 
   select
-    ID,
+    ID as o_ID,
     USER_ID,
     cast(ORDER_DATE as DATE) as ORDER_DATE,
     STATUS
@@ -33,7 +33,7 @@ orderstbl as (
 paymentstbl as (
 
   select
-    ID,
+    ID as p_ID,
     ORDER_ID,
     PAYMENT_METHOD,
     AMOUNT
@@ -44,9 +44,9 @@ paymentstbl as (
 select *
 from customerstbl
 inner join orderstbl
-  on customerstbl.ID = orderstbl.USER_ID
+  on customerstbl.c_ID = orderstbl.USER_ID
 inner join paymentstbl
-  on orderstbl.ID = paymentstbl.ORDER_ID
+  on orderstbl.o_ID = paymentstbl.ORDER_ID
 
 /*
     Uncomment the line below to remove records with null `id` values
