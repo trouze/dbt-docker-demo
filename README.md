@@ -2,7 +2,7 @@
 
 This repo sets up a demo using the dbt Jaffle Shop data in Snowflake to demo an orchestration of a transformation using dbt that is containerized into a Docker container.
 
-Assuming you've got Docker installed (likely using WSL2), clone this repo, change directory, and run the following commands.
+Assuming you've got Docker installed (likely using WSL2), clone this repo, change directory, and run the following commands. If you need to install Docker (and thus WSL), info can be found at the bottom.
 
 Best practice is to initialize a dbt project and create the Dockerfile within that project directory. This will help avoid file path errors when generating the Docker image.
 
@@ -37,6 +37,14 @@ If you wish to run docker more interactively across projects, you can add a coup
 or
 
 ```docker run --network=host --mount type=bind,source=/home/tyler/dev/dbt_docker,target=/usr/app --mount type=bind,source=/home/tyler/.dbt/profiles.yml,target=/root/.dbt/profiles.yml dbt-demo-image```
+
+### Installing WSL and Docker
+If you're running Windows, you'll want to install WSL (Windows subsystem for Linux) in order to run Docker. WSL effectively runs a linux distro on your Windows machine. Most interaction with Linux will be using Bash/command line terminal. To get set up, we'll install a few things:
+
+- WSL via [Microsoft's documentation](https://docs.microsoft.com/en-us/windows/wsl/install). Memorize your password!
+- Restart your machine.
+- [Windows Terminal](https://apps.microsoft.com/store/detail/windows-terminal/9N0DX20HK701?hl=en-us&gl=US)
+- [Install Docker on WSL](https://docs.microsoft.com/en-us/windows/wsl/tutorials/wsl-containers)
 
 ### Resources:
 - Learn more about dbt [in the docs](https://docs.getdbt.com/docs/introduction)
