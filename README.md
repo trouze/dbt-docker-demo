@@ -50,13 +50,17 @@ Additionally, we can change the mount/copy behavior of our `profiles.yml` file a
 If you wish to run docker more interactively across projects, you can add a couple args to the `docker run` command.
 
 ```
-docker run --network=host --mount type=bind,source=/home/tyler/dev/dbt_project,target=/usr/app --mount type=bind,source=/home/tyler/.dbt/profiles.yml,target=/root/.dbt/profiles.yml dbt-demo-image debug
+docker run --network=host --mount type=bind,source=/home/tyler/dev/dbt_project,target=/usr/app \
+--mount type=bind,source=/home/tyler/.dbt/profiles.yml,target=/root/.dbt/profiles.yml \
+dbt-demo-image debug
 ```
 
 or
 
 ```
-docker run --network=host --mount type=bind,source=/home/tyler/dev/dbt_docker,target=/usr/app --mount type=bind,source=/home/tyler/.dbt/profiles.yml,target=/root/.dbt/profiles.yml dbt-demo-image debug
+docker run --network=host --mount type=bind,source=/home/tyler/dev/dbt_docker,target=/usr/app \
+--mount type=bind,source=/home/tyler/.dbt/profiles.yml,target=/root/.dbt/profiles.yml \
+dbt-demo-image debug
 ```
 
 ### Running Docker in the Cloud (Azure in this case)
@@ -106,7 +110,12 @@ Additionally, to extend functionality and automation, you may set up a CI/CD pip
 To run the image from Azure CLI one time, you can follow this [link](https://docs.microsoft.com/en-us/azure/container-instances/container-instances-quickstart) or run the command below:
 
 ```
-az container create --resource-group dbt-snowflake-demo --name testdbtrun --registry-login-server dbtsnowflakedocker.azurecr.io --image dbtsnowflakedocker.azurecr.io/dbtsnowflakeimage:v1 --registry-username dbtsnowflakedocker --location eastus --ports 80 --protocol TCP --restart-policy Never --memory 1.5 --cpu 1 --os-type Linux --ip-address Private --registry-password <add password here>
+az container create --resource-group dbt-snowflake-demo --name testdbtrun \
+--registry-login-server dbtsnowflakedocker.azurecr.io \
+--image dbtsnowflakedocker.azurecr.io/dbtsnowflakeimage:v1 \
+--registry-username dbtsnowflakedocker --location eastus --ports 80 \
+--protocol TCP --restart-policy Never --memory 1.5 --cpu 1 \
+--os-type Linux --ip-address Private --registry-password <add password here>
 ```
 
 It's lengthy, but we define necessary logic for the resources we'll need in order for our image to run successfully. This command should return JSON regarding the success (or lack thereof) of your instance run.
