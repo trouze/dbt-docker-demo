@@ -48,11 +48,6 @@ ENV LANG=C.UTF-8
 # Update python
 RUN python -m pip install --upgrade pip setuptools wheel --no-cache-dir
 
-# Setup for GCP Cloud Run
-EXPOSE 8080
-ENV HOST 0.0.0.0
-ENV PORT 8080
-
 # Set docker basics
 # set custom copy logic
 COPY . /usr/app

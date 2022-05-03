@@ -1,0 +1,13 @@
+dbt_snowflake_demo:
+  outputs:
+    dev:
+      account: analytics8.us-east-1
+      database: TROUZE_DB
+      password: yGM&yRx4chnFxV
+      role: A8_USER
+      schema: JAFFLE_SHOP
+      threads: 1
+      type: snowflake
+      user: trouze
+      warehouse: TROUZE_WH
+  target: dev

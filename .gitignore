@@ -1,5 +1,6 @@
-
 target/
 dbt_packages/
 logs/
 env/
+profiles.yml
+azure_secret.yml

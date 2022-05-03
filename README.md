@@ -59,6 +59,58 @@ or
 docker run --network=host --mount type=bind,source=/home/tyler/dev/dbt_docker,target=/usr/app --mount type=bind,source=/home/tyler/.dbt/profiles.yml,target=/root/.dbt/profiles.yml dbt-demo-image debug
 ```
 
+### Running Docker in the Cloud (Azure in this case)
+To run in the cloud (and set us up to schedule cloud runs), we can push our Docker image to a container registry, for Azure this is called Azure Container Registry.
+
+First, you'll need the Azure CLI to interact with Azure components. If you're using WSL, you can open up a Ubuntu terminal window and simply run this command:
+```
+curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
+```
+
+This will install the CLI, you can login with a simple ```az login``` command.
+
+Then, we can simply follow the quickstart [here](https://docs.microsoft.com/en-us/azure/container-registry/container-registry-get-started-azure-cli) to get our locally built image to Azure where we can run it. If you want to follow along here, we'll first create a resource group:
+
+```
+az group create --name dbt-snowflake-demo --location eastus
+```
+
+Create a container registry in that resource group:
+
+```
+az acr create --resource-group dbt-snowflake-demo --name dbtsnowflakedocker --sku Basic
+```
+
+Login to the container registry:
+
+```
+az acr login --name dbtsnowflakedocker
+```
+
+Name and tag our docker image for upload to the container registry:
+
+```
+docker tag dbt-snowflake-demo dbtsnowflakedocker.azurecr.io/dbtsnowflakeimage:v1
+```
+
+Push the container to the registry:
+
+```
+docker push dbtsnowflakedocker.azurecr.io/dbtsnowflakeimage:v1
+```
+
+Once you've pushed the image, you can go ahead and run an instance of your image using Azure Container Instance. From here, you could schedule an instance to be created on a schedule, or ran through some other means.
+
+Additionally, to extend functionality and automation, you may set up a CI/CD pipeline that generates the Docker image on a pull request to this repository and pushes that image to the cloud image repository to be ran on next instantiation.
+
+To run the image from Azure CLI one time, you can follow this [link](https://docs.microsoft.com/en-us/azure/container-instances/container-instances-quickstart) or run the command below:
+
+```
+az container create --resource-group dbt-snowflake-demo --name testdbtrun --registry-login-server dbtsnowflakedocker.azurecr.io --image dbtsnowflakedocker.azurecr.io/dbtsnowflakeimage:v1 --registry-username dbtsnowflakedocker --location eastus --ports 80 --protocol TCP --restart-policy Never --memory 1.5 --cpu 1 --os-type Linux --ip-address Private --registry-password <add password here>
+```
+
+It's lengthy, but we define necessary logic for the resources we'll need in order for our image to run successfully. This command should return JSON regarding the success (or lack thereof) of your instance run.
+
 ### Resources:
 - Learn more about dbt [in the docs](https://docs.getdbt.com/docs/introduction)
 - Check out [Discourse](https://discourse.getdbt.com/) for commonly asked questions and answers
