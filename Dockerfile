@@ -9,7 +9,7 @@ ARG build_for=linux/amd64
 ##
 # base image (abstract)
 ##
-FROM --platform=$build_for python:3.10.3-slim-bullseye as base
+FROM --platform=$build_for python:3.9.9-slim-bullseye as base
 
 # N.B. The refs updated automagically every release via bumpversion
 # N.B. dbt-postgres is currently found in the core codebase so a value of dbt-core@<some_version> is correct
@@ -49,12 +49,15 @@ ENV LANG=C.UTF-8
 RUN python -m pip install --upgrade pip setuptools wheel --no-cache-dir
 
 # Set docker basics
+# set custom copy logic
 COPY . /usr/app
-COPY /home/tyler/.dbt/profiles.yml /root/.dbt/profiles.yml
+COPY profiles.yml /root/.dbt/profiles.yml
+# Define Working dir, entrypoint, volume to persist project data once 
 WORKDIR /usr/app/dbt/
 VOLUME /usr/app
+EXPOSE 8080
 ENTRYPOINT ["sh", "/usr/app/run.sh"]
-# ENTRYPOINT ["dbt"]
+#ENTRYPOINT ["dbt"]
 
 ##
 # dbt-core
