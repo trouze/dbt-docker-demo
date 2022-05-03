@@ -101,7 +101,7 @@ docker push us-central1-docker.pkg.dev/dbt-docker-demo/dbt-docker-demo-repo/dbt-
 Create a Container based on the Docker Image in Cloud Run
 
 ```
-gcloud run deploy --image dbt-snowflake-demo
+gcloud run deploy --image us-central1-docker.pkg.dev/dbt-docker-demo/dbt-docker-demo-repo/dbt-snowflake-demo
 ```
 
 Obviously in a production environment it will make sense to set up an orchestrator (e.g. GCP Composer) or a scheduler (e.g. Cloud Scheduler) to trigger a run and perform actions should something fail, but for the purposes of this demo we'll stop here.
