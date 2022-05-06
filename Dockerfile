@@ -50,14 +50,14 @@ RUN python -m pip install --upgrade pip setuptools wheel --no-cache-dir
 
 # Set docker basics
 # set custom copy logic
-COPY . /usr/app
-COPY profiles.yml /root/.dbt/profiles.yml
+#COPY . /usr/app
+#COPY profiles.yml /root/.dbt/profiles.yml
 # Define Working dir, entrypoint, volume to persist project data once 
 WORKDIR /usr/app/dbt/
 VOLUME /usr/app
 
-ENTRYPOINT ["sh", "/usr/app/run.sh"]
-#ENTRYPOINT ["dbt"]
+#ENTRYPOINT ["sh", "/usr/app/run.sh"]
+ENTRYPOINT ["dbt"]
 
 ##
 # dbt-core

@@ -17,6 +17,8 @@ If you're running Windows, you'll want to install WSL (Windows subsystem for Lin
 
 Best practice is to initialize a dbt project and create the Dockerfile within that project directory. This will help avoid file path errors when generating the Docker image.
 
+You can find the official dbt Dockerfile in the dbt-labs [Github repository](https://github.com/dbt-labs/dbt-core/tree/main/docker).
+
 The below command builds the docker image, we specify the adapter type. Here we show Databricks and Snowflake, but there are more. The period (.) at the end of the command specifies the path to the Dockerfile, if you've changed to the working directory that contains the Dockerfile and dbt project, this will work.
 
 ```
